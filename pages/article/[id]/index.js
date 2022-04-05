@@ -1,4 +1,5 @@
 import {server} from '../../../config'
+import Meta from '../../../components/Meta'
 import Link from 'next/link'
 // import {useRouter} from 'next/router'
 
@@ -8,19 +9,16 @@ const article = ({article}) => {
 
     return(
         <>
-            <h1>
-                {article.title}
-            </h1>
-            <p>
-                {article.body}
-            </p>
+            <Meta title={article.title} />
+            <h1>{article.title}</h1>
+            <p>{article.body}</p>
             <br />
             <Link href='/'>Go back</Link>
         </>
     )
 }
 
-
+// uses api from /pages
 export const getStaticProps = async(context) =>{
     const res = await fetch(`${server}/api/articles/${context.params.id}`);
 
@@ -43,10 +41,11 @@ export const getStaticPaths = async () =>{
 
     return {
         paths,
-        fallback: false // returns 404 page for data not found
+        fallback: false 
     };
 }
 
+// // uses json placeholder
 // // orginally used as getServerSideProps but now updated to be getStaticProps to work with getStaticPaths
 // export const getStaticProps = async(context) =>{
 //     const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${context.params.id}`);
